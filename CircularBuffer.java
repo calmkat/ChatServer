@@ -4,37 +4,55 @@ package ChatServer;
  */
 
 public class CircularBuffer {
-    private int size;
-    private String num = "0000";
+    int num = 0;
     private String[] buffer;
-    private String mess;
-    int count = 0;
-    public CircularBuffer(int size) {
-        this.size = size;
-        buffer = new String[size];
+    private String message;
+    String sessionCookie = "0000";
+    int lastMessageBufferIndex = 0;
+
+    public CircularBuffer(String message) {
+        this.buffer = new String[6];
+        this.message = message;
     }
+
     public void put(String message) {
-        int num1 = Integer.parseInt(num);
-        if (num1 < 6) {
-            mess = num1 + ") " + message;
-            buffer[num1] = mess;
-        } else if (buffer[size - 1] != null) {
-
+        for (int i = 0; i < 6; i++) {
+            if (num < 10) {
+                sessionCookie = "000" + num;
+            } else if (num < 100 && num > 9) {
+                sessionCookie = "00" + num;
+            } else if (num < 1000 && num > 99) {
+                sessionCookie = "0" + num;
+            } else {
+                sessionCookie = String.valueOf(num);
+            }
+            buffer[i] = sessionCookie + message;
+            lastMessageBufferIndex = i;
+            num++;
+            if (i == 5) {
+                i = 0;
+            }
         }
-        num1++;
-        num = Integer.toString(num1);
     }
+
     public String[] getNewest(int numMessages) {
-        String[] messages = new String[numMessages];
-        int num2 = Integer.parseInt(num);
-        if (numMessages < 0) {
-            return null;
+        String[] error = new String[1];
+        error[0] = "error";
+        String[] messageArray = new String[6];
+        String[] nullArray = new String[0];
+        if (numMessages > 6 || numMessages < 1) {
+            return error;
         } else if (numMessages == 0) {
-            String[] empty = new String[0];
-            return empty;
+            return nullArray;
         } else {
-
+            for (int i = 0; i < numMessages; i++) {
+                int back = lastMessageBufferIndex - i;
+                if (back < 0) {
+                    back += 6;
+                }
+                messageArray[i] = buffer[back];
+            }
+            return messageArray;
         }
-
     }
 }

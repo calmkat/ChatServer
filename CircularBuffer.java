@@ -4,31 +4,20 @@ package ChatServer;
  */
 
 public class CircularBuffer {
-    int num = 0;
+    private int size;
     private String[] buffer;
-    private String message;
-    String sessionCookie = "0000";
+    SessionCookie sessionCookie = new SessionCookie((long) Math.floor(10000 * Math.random()));
     int lastMessageBufferIndex = 0;
 
-    public CircularBuffer(String message) {
-        this.buffer = new String[6];
-        this.message = message;
+    public CircularBuffer(int size) {
+        this.size = size;
+        this.buffer = new String[size];
     }
 
     public void put(String message) {
-        for (int i = 0; i < 6; i++) {
-            if (num < 10) {
-                sessionCookie = "000" + num;
-            } else if (num < 100 && num > 9) {
-                sessionCookie = "00" + num;
-            } else if (num < 1000 && num > 99) {
-                sessionCookie = "0" + num;
-            } else {
-                sessionCookie = String.valueOf(num);
-            }
-            buffer[i] = sessionCookie + message;
+        for (int i = 0; i < size; i++) {
+            buffer[i] = sessionCookie.getID() + ") " + message;
             lastMessageBufferIndex = i;
-            num++;
             if (i == 5) {
                 i = 0;
             }
@@ -38,9 +27,9 @@ public class CircularBuffer {
     public String[] getNewest(int numMessages) {
         String[] error = new String[1];
         error[0] = "error";
-        String[] messageArray = new String[6];
+        String[] messageArray = new String[size];
         String[] nullArray = new String[0];
-        if (numMessages > 6 || numMessages < 1) {
+        if (numMessages > size || numMessages < 1) {
             return error;
         } else if (numMessages == 0) {
             return nullArray;

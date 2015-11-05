@@ -1,23 +1,30 @@
+package ChatServer;
+/**
+ * Created by junsookim on 11/1/15.
+ */
 import java.util.*;
 
 /**
  * <b> CS 180 - Project 4 - Chat Server Skeleton </b>
  * <p>
- * 
+ *
  * This is the skeleton code for the ChatServer Class. This is a private chat
  * server for you and your friends to communicate.
- * 
+ *
  * @author (Your Name) <(YourEmail@purdue.edu)>
- * 
+ *
  * @lab (Your Lab Section)
- * 
+ *
  * @version (Today's Date)
  *
  */
 public class ChatServer {
-	
+	private int maxMessages;
+	private User[] users;
 	public ChatServer(User[] users, int maxMessages) {
-		// TODO Complete the constructor
+		this.maxMessages = maxMessages;
+		this.users = new User[0];
+		//finish this after user
 	}
 
 	/**
@@ -73,7 +80,7 @@ public class ChatServer {
 	 * includes the "\" as a character instead of entering the escape character.
 	 * This function replaces the incorrectly inputed characters with their
 	 * proper escaped characters.
-	 * 
+	 *
 	 * @param str
 	 *            - the string to be edited
 	 * @return the properly escaped string
@@ -82,14 +89,13 @@ public class ChatServer {
 		str = str.replace("\\r", "\r");
 		str = str.replace("\\n", "\n");
 		str = str.replace("\\t", "\t");
-
 		return str;
 	}
 
 	/**
 	 * Determines which client command the request is using and calls the
 	 * function associated with that command.
-	 * 
+	 *
 	 * @param request
 	 *            - the full line of the client request (CRLF included)
 	 * @return the server response
@@ -99,3 +105,4 @@ public class ChatServer {
 		return request;
 	}
 }
+

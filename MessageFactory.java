@@ -1,3 +1,4 @@
+package ChatServer;
 /**
  * <b> CS 180 - Project 4 - Message Factory </b>
  * <p>

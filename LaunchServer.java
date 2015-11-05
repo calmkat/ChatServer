@@ -1,4 +1,4 @@
-
+package ChatServer;
 public class LaunchServer {
 
 	/**

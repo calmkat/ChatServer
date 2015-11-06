@@ -2,6 +2,8 @@ package ChatServer;
 /**
  * Created by junsookim on 11/1/15.
  */
+import org.omg.CORBA.INVALID_ACTIVITY;
+
 import java.util.*;
 
 /**
@@ -101,8 +103,59 @@ public class ChatServer {
 	 * @return the server response
 	 */
 	public String parseRequest(String request) {
-		// TODO: Replace the following code with the actual code
-		return request;
+		String command = request.split(" ")[0];
+		String[] parameters = new String[request.split(" ").length - 1];
+		for (int i = 1; i < request.split(" ").length; i++) {
+			parameters[i] = request.split(" ")[i];
+		}
+		if (command.equals("addUser")) {
+			//addUser()
+			return " ";
+		} else if (command.equals("userLogin")) {
+			//userLogin()
+			return " ";
+		} else if (command.equals("postMessage")) {
+			//postMessage()
+			return " ";
+		} else if (command.equals("getMessage")) {
+			//getMessage()
+			return " ";
+		} else {
+			//return INVALID_VALUE_ERROR;
+			return " ";
+		}
+	}
+
+	public String addUser(String[] args) {
+		Scanner s = new Scanner();
+		System.out.println("input your username");
+		String username = s.nextLine();
+		String[] username1 = username.split("");
+		for (int i = 0; i < username1.length; i++) {
+			if (!(username1[i].equals("a"))) { //FIX!!!!!
+				username = " ";
+			}
+		}
+		System.out.println("input your password");
+		String password = s.nextLine();
+		if (!(password.length() < 21 && password.length() > 0)) {
+			password = " ";
+		}
+		SessionCookie s = new SessionCookie(0321); //FIX!
+		User u = new User(username, password, s);
+		return "SUCCESS";
+	}
+
+	public String userLogin(String[] args) {
+		return " "; //FIX
+	}
+
+	public String postMessage(String[] args, String name) {
+		return " "; //FIX
+	}
+
+	public String getMessages(String[] args) {
+		return " "; //FIX
 	}
 }
 

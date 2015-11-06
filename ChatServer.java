@@ -23,7 +23,8 @@ public class ChatServer {
 	private User[] users;
 	public ChatServer(User[] users, int maxMessages) {
 		this.maxMessages = maxMessages;
-		this.users = new User[0];
+		this.users = new User[maxMessages];
+		users[0] = new User("root", "cs180", )
 		//finish this after user
 	}
 
@@ -103,6 +104,20 @@ public class ChatServer {
 	public String parseRequest(String request) {
 		// TODO: Replace the following code with the actual code
 		return request;
+	}
+	public String addUser(String args[]) {
+        for (int i = 0; i < args.length; i++) {
+
+        }
+	}
+	public String userLogin(String args[]) {
+
+	}
+	public String postMessage(String args[]) {
+
+	}
+	public String getMessages(String args[]) {
+
 	}
 }
 

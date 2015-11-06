@@ -15,7 +15,7 @@ public class CircularBuffer {
     }
     public void put(String message) {
         int num1 = Integer.parseInt(num);
-        if (num1 < 6) {
+        if (num1 < size) {
             mess = num1 + ") " + message;
             buffer[num1] = mess;
         } else if (buffer[size - 1] != null) {
@@ -32,9 +32,6 @@ public class CircularBuffer {
         } else if (numMessages == 0) {
             String[] empty = new String[0];
             return empty;
-        } else {
-
         }
-
     }
 }

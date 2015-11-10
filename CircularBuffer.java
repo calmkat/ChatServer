@@ -18,36 +18,44 @@ public class CircularBuffer {
         SessionCookie sessionCookie = new SessionCookie(num);
         if (sessionCookie.getID() >= 0 && sessionCookie.getID() < 10) {
             buffer[num] = "000" + sessionCookie.getID() + ") " + message;
-            num++;
         } else if (sessionCookie.getID() >= 10 && sessionCookie.getID() < 100) {
             buffer[num] = "00" + sessionCookie.getID() + ") " + message;
-            num++;
         } else if (sessionCookie.getID() >= 100 && sessionCookie.getID() < 1000) {
             buffer[num] = "0" + sessionCookie.getID() + ") " + message;
-            num++;
         } else {
             buffer[num] = sessionCookie.getID() + ") " + message;
-            num++;
         }
         if (num >= 0 && num < 6) {
             lastMessageBufferIndex = num;
         } else {
             lastMessageBufferIndex = (num % 6) - (num / 6);
         }
+        num++;
     }
 
     public String[] getNewest(int numMessages) {
-        String[] messageArray = new String[numMessages];
+        String[] messageArray;
+        int nullCount = 0;
+        /*for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] == null) {
+                nullCount++;
+            }
+        }*/
+        if (numMessages > (buffer.length)) {
+            messageArray = new String[buffer.length];
+        } else {
+            messageArray = new String[numMessages];
+        }
         String[] nullArray = new String[0];
         if (numMessages == 0) {
             return nullArray;
         } else {
             for (int i = 0; i < numMessages; i++) {
-                int back = lastMessageBufferIndex - i;
+                int back = lastMessageBufferIndex - i; //2
                 if (back < 0) {
-                    back += 6;
+                    back += 5;
                 }
-                messageArray[i] = buffer[back];
+                messageArray[back] = buffer[back]; //make this print backwards
             }
             return messageArray;
         }

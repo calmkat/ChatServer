@@ -1,47 +1,45 @@
 package ChatServer;
+
 /**
  * Created by marcu on 11/3/2015.
  */
 
 public class CircularBuffer {
-    int num = 0;
+    private int size;
     private String[] buffer;
-    private String message;
-    String sessionCookie = "0000";
     int lastMessageBufferIndex = 0;
-
-    public CircularBuffer(String message) {
-        this.buffer = new String[6];
-        this.message = message;
+    int num = 0;
+    public CircularBuffer(int size) {
+        this.size = size;
+        this.buffer = new String[size];
     }
+
     public void put(String message) {
-        for (int i = 0; i < 6; i++) {
-            if (num < 10) {
-                sessionCookie = "000" + num;
-            } else if (num < 100 && num > 9) {
-                sessionCookie = "00" + num;
-            } else if (num < 1000 && num > 99) {
-                sessionCookie = "0" + num;
-            } else {
-                sessionCookie = String.valueOf(num);
-            }
-            buffer[i] = sessionCookie + message;
-            lastMessageBufferIndex = i;
+        SessionCookie sessionCookie = new SessionCookie(num);
+        if (sessionCookie.getID() >= 0 && sessionCookie.getID() < 10) {
+            buffer[num] = "000" + sessionCookie.getID() + ") " + message;
             num++;
-            if (i == 5) {
-                i = 0;
-            }
+        } else if (sessionCookie.getID() >= 10 && sessionCookie.getID() < 100) {
+            buffer[num] = "00" + sessionCookie.getID() + ") " + message;
+            num++;
+        } else if (sessionCookie.getID() >= 100 && sessionCookie.getID() < 1000) {
+            buffer[num] = "0" + sessionCookie.getID() + ") " + message;
+            num++;
+        } else {
+            buffer[num] = sessionCookie.getID() + ") " + message;
+            num++;
+        }
+        if (num >= 0 && num < 6) {
+            lastMessageBufferIndex = num;
+        } else {
+            lastMessageBufferIndex = (num % 6) - (num / 6);
         }
     }
 
     public String[] getNewest(int numMessages) {
-        String[] error = new String[1];
-        error[0] = "error";
-        String[] messageArray = new String[6];
+        String[] messageArray = new String[numMessages];
         String[] nullArray = new String[0];
-        if (numMessages > 6 || numMessages < 1) {
-            return error;
-        } else if (numMessages == 0) {
+        if (numMessages == 0) {
             return nullArray;
         } else {
             for (int i = 0; i < numMessages; i++) {

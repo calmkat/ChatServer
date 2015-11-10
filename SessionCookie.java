@@ -4,6 +4,7 @@ package ChatServer;
  */
 public class SessionCookie {
     private long id;
+    long elapsed;
     public static int timeoutLength = 300;
     long time = System.currentTimeMillis();
     public SessionCookie(long id) {
@@ -11,15 +12,11 @@ public class SessionCookie {
     }
     public boolean hasTimedOut() {
         long time1 = System.currentTimeMillis();
-        long elapsed = time - time1;
-        if (elapsed / 100 > timeoutLength) {
-            return true;
-        } else {
-            return false;
-        }
+        elapsed = time - time1;
+        return ((elapsed / 100) > timeoutLength);
     }
     public void updateTimeOfActivity() {
-        int time =
+        elapsed = 0;
     }
     public long getID() {
         return id;

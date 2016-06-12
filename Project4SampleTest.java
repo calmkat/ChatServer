@@ -22,7 +22,7 @@ public class Project4Test {
 		SessionCookie.timeoutLength = 300;
 	}
 
-	// Auxilary function
+	// Auxiliary function
 	private static String  verifyErrorMessage(String msg, int code) {
 
 		if (!msg.endsWith("\r\n"))
